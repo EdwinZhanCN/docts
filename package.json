@@ -1,8 +1,12 @@
 {
-  "name": "docts",
-  "version": "0.0.0",
+  "name": "@edwinzhancn/docts",
+  "version": "0.1.0",
   "description": "Architecture docs in doc.ts that fail the build when they drift.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdwinZhanCN/docts.git"
+  },
   "files": [
     "dist"
   ],
@@ -14,7 +18,8 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "vp pack",
@@ -22,7 +27,7 @@
     "test": "vp test",
     "check": "vp check",
     "prepublishOnly": "vp run build",
-    "prepare": "vp config && vp pack"
+    "prepare": "vp config"
   },
   "dependencies": {
     "@microsoft/tsdoc": "^0.16.0",

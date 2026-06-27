@@ -28,29 +28,35 @@ export {};
 
 ## Install
 
-Within the same repo, link it as a dev dependency:
+Published to GitHub Packages. Point the scope at the GitHub registry — note that
+GitHub Packages requires a token (`read:packages`) to install even public
+packages:
+
+```ini
+# .npmrc
+@edwinzhancn:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
 
 ```jsonc
 // package.json
 "devDependencies": {
-  "docts": "link:../3rd-party/docts"
+  "@edwinzhancn/docts": "^0.1.0"
 }
 ```
 
-Once it lives in its own repo, swap the link for a git dependency
-(`"docts": "github:EdwinZhanCN/docts"`).
+The package ships three entry points: the core library (`@edwinzhancn/docts`), an
+oxlint plugin (`@edwinzhancn/docts/oxlint`), and a vite plugin
+(`@edwinzhancn/docts/vite`).
 
-The package ships three entry points: the core library (`docts`), an oxlint
-plugin (`docts/oxlint`), and a vite plugin (`docts/vite`).
-
-## Checking — `docts/oxlint`
+## Checking — `@edwinzhancn/docts/oxlint`
 
 Register the plugin in your lint config and turn the rule on:
 
 ```ts
 // vite.config.ts
 lint: {
-  jsPlugins: ["docts/oxlint"],
+  jsPlugins: ["@edwinzhancn/docts/oxlint"],
   rules: { "docts/link-needs-import": "error" },
   // doc.ts imports are documentation-only: tsc counts a {@link} as a use, the
   // linter's no-unused-vars does not, so hand that rule back to tsc on doc.ts.
@@ -69,11 +75,11 @@ lint: {
 A `{@link X}` with no backing `import` now fails the lint pass, pointing right
 at the link.
 
-## Rendering — `docts/vite`
+## Rendering — `@edwinzhancn/docts/vite`
 
 ```ts
 // vite.config.ts
-import { docts } from "docts/vite";
+import { docts } from "@edwinzhancn/docts/vite";
 
 export default {
   plugins: [docts({ root: "src" })],
