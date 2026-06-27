@@ -1,0 +1,58 @@
+{
+  "name": "docts",
+  "version": "0.0.0",
+  "description": "Architecture docs in doc.ts that fail the build when they drift.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./oxlint": "./dist/oxlint.mjs",
+    "./vite": "./dist/vite.mjs",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "check": "vp check",
+    "prepublishOnly": "vp run build",
+    "prepare": "vp config && vp pack"
+  },
+  "dependencies": {
+    "@microsoft/tsdoc": "^0.16.0",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.68.0",
+    "@types/node": "^25.6.2",
+    "@typescript/native-preview": "7.0.0-dev.20260509.2",
+    "bumpp": "^11.1.0",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "@oxlint/plugins": ">=1.68.0",
+    "vite": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "@oxlint/plugins": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.9.0",
+      "onFail": "download"
+    }
+  }
+}
