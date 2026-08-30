@@ -1,0 +1,45 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: # 支持在 GitHub 网页一键点击手动发布
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # 用于生成 npm provenance (安全溯源)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run checks & tests
+        run: |
+          pnpm run check
+          pnpm run test
+
+      - name: Build dist
+        run: pnpm run build
+
+      - name: Publish to npm
+        run: pnpm publish --no-git-checks --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
