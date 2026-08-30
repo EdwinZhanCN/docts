@@ -33,8 +33,10 @@ jobs:
 
       - name: Build dist
         run: pnpm run build
-
+        
       - name: Publish to npm
-        run: pnpm publish --no-git-checks --provenance
+        run: pnpm publish --registry https://registry.npmjs.org/ --no-git-checks --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
